@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ded18d97d077e7aa1b8cfc3f460b0fa3",
+    "content-hash": "23657be95957643d7f49a4adfb182f31",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -7434,7 +7434,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "chapa/chapa-laravel": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

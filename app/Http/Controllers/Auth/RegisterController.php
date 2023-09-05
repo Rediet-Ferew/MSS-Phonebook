@@ -2,12 +2,17 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
-use App\Providers\RouteServiceProvider;
 use App\Models\User;
-use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
+use App\Providers\RouteServiceProvider;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Auth\RegistersUsers;
+use App\Http\Controllers\OTPVerificationController;
 
 class RegisterController extends Controller
 {
@@ -57,6 +62,44 @@ class RegisterController extends Controller
             
         ]);
     }
+        public function register(Request $request)
+        {
+            $this->validator($request->all())->validate();
+
+        // Generate OTP
+            $otpVerificationController = new OTPVerificationController();
+            $otp = $otpVerificationController->generateOTP();
+            // dd($otp);
+            // Create a new user instance
+            $user = $this->create($request->all(), $otp);
+            DB::table('users')->where('phonenumber', $request->input('phonenumber'))->update(['otp' => $otp]);
+
+            // dd($request);
+            // Send OTP and store it in the database
+            $otpVerificationController->sendOTP($request);
+            Session::put('verify_otp_phonenumber', $request->input('phonenumber'));
+            Session::put('verify_otp_otp', $otp);
+            
+            // return view('otpcheck');tp_
+            // Redirect the user to OTP verification page or perform any other actions
+            return redirect()->route('verify-otp');
+        }
+
+        protected function create(array $data, $otp)
+        {
+
+            return User::create([
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'password' => Hash::make($data['password']),
+                'phonenumber' => $data['phonenumber'],
+                'otp' => $otp,
+            ]);
+        }
+
+        
+   
+    
 
     /**
      * Create a new user instance after a valid registration.
@@ -64,14 +107,5 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\Models\User
      */
-    protected function create(array $data)
-    {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-            'phonenumber' => $data['phonenumber'],
-            
-        ]);
-    }
+   
 }

@@ -9,6 +9,7 @@ use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\PackageController;
 use App\Http\Controllers\SubcityController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\OTPVerificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -73,3 +74,14 @@ Route::get('companies/{id}', [CompanyController::class, 'getCompany']);
 Route::post('companies', [CompanyController::class, 'createCompany']);
 Route::put('companies/{id}', [CompanyController::class, 'updateCompany']);
 Route::delete('companies/{id}', [CompanyController::class, 'deleteCompany']);
+
+
+// Route::post('pay', 'App\Http\Controllers\ChapaController@initialize')->name('pay');
+
+// // The callback url after a payment
+// Route::get('callback/{reference}', 'App\Http\Controllers\ChapaController@callback')->name('callback');
+
+
+// Route::post('/send-otp', [OTPVerificationController::class, 'sendOTP']);
+
+// Route::post('/verify-otp', [OTPVerificationController::class, 'verifyOTP'])->name('verify-otp');

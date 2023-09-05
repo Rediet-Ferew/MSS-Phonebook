@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="en">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -21,15 +21,20 @@
         </style>
     </head>
     <body class="antialiased">
-        <div>
-            <h3>Buy Borsa for 100.00 ETB</h3>
-            <form method="POST" action="{{route("pay")}}" id="paymentForm">
+        
+        {{-- <form action="/send-otp" method="POST">
             @csrf
-            @method('POST')
+            <input type="text" name="phone_number" placeholder="Enter your phone number">
+            <button type="submit">Send OTP</button>
+        </form> --}}
 
-
-        <input type="submit" value="Buy" />
-</form>
-        </div>
+        <form method="POST" action="{{ route('verify-otp.verify') }}">
+            @csrf
+            <label for="otp">Enter OTP:</label>
+            <input type="text" id="otp" name="otp">
+            <input type="hidden" name="phonenumber" value="{{ $phonenumber }}">
+            <input type="hidden" name="stored_otp" value="{{ $otp }}">
+            <button type="submit">Verify OTP</button>
+        </form>
     </body>
 </html>
