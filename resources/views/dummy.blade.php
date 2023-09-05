@@ -21,15 +21,24 @@
         </style>
     </head>
     <body class="antialiased">
-        <div>
-            <h3>Buy Borsa for 100.00 ETB</h3>
-            <form method="POST" action="{{route("pay")}}" id="paymentForm">
+        <form action="{{ route('pay') }}" method="POST">
             @csrf
-            @method('POST')
-
-
-        <input type="submit" value="Buy" />
-</form>
-        </div>
+            <div>
+                {{-- <label for="name">Name:</label>
+                <input type="text" name="name" id="name">
+                <label for="email">Email:</label>
+                <input type="email" name="email" id="email"> --}}
+            </div>
+            <div>
+                <label for="package">Package:</label>
+                <select name="package" id="package">
+                    <option value="Yearly">Yearly</option>
+                    <option value="Monthly">Monthly</option>
+                    <option value="Three Monthly">Three Monthly</option>
+                    <option value="Six Monthly">Six Monthly</option>
+                </select>
+            </div>
+            <button type="submit">Pay Now</button>
+        </form>
     </body>
 </html>
